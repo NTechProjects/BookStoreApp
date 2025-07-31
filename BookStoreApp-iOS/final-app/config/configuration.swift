@@ -10,5 +10,8 @@ import Foundation
 let serverURL = "http://localhost:4000"
 
 func createUrl(path: String)->String{
-    return "\(serverURL)/\(path)"
+//    return "\(serverURL)/\(path)"
+    let url = "\(serverURL)\(path)"
+    print("url: \(url)")
+    return url
 }

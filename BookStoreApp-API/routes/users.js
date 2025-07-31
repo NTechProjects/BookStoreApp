@@ -26,3 +26,5 @@ router.post('/signin', (req, resp) => {
         resp.send(apiSuccess({...dbUser, token})) //password matched for this user     
      })
 })
+
+module.exports = router

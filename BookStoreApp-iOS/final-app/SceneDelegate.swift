@@ -10,7 +10,20 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    
+    //start the login workflow
+    func loginWOrkflow(){
+        //get the login navigation controller
+        let loginNavigationCOntroller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavigationLoginWorkflow")
+        
+        //start the navigation as the root view controller of window
+        window?.rootViewController = loginNavigationCOntroller
+    }
+    
+    //start the home workflow
+    func homwWorkflow() {
+        
+    }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.

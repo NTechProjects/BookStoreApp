@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class RegisterViewController: BaseViewController {
 
@@ -36,7 +37,39 @@ class RegisterViewController: BaseViewController {
         }else if editPassword.text! != editConfirmPassword.text!{
             showErrorAlert(message: "Pssword does not match")
         }else{
+            //create url
+            let url = createUrl(path: "/users/signup")
             
+            //create body
+            let body = [
+                "name": editName.text!,
+                "password": editPassword.text!,
+                "email": editEmail.text!,
+                "mobile": editMobile.text!,
+                "addr": editAddress.text!
+            ]
+            
+            //create the request
+            let request = AF.request(url, method: .post, parameters: body, encoding: JSONEncoding.default)
+            
+            //send the request and get the response
+            request.response(completionHandler: { response in
+                switch response.result{
+                case .success(let data):
+                    //type cast the data to dictionary of String and Any
+                    let result = try! JSONSerialization.jsonObject(with: data!, options: []) as! [String: Any]
+                    
+                    //check if registration is successful
+                    if result["status"] as! String == "success" {
+                        self.showSuccessAlert(message: "Successfully registered a user")
+                        self.navigationController?.popViewController(animated: true)
+                    } else{
+                        self.showErrorAlert(message: "Failed to register a user")
+                    }
+                case.failure(let error):
+                    self.showErrorAlert(message: "Failed to register a user")
+                }
+            })
         }
     }
     

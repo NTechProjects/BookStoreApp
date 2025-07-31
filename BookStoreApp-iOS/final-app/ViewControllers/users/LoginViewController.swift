@@ -16,8 +16,6 @@ class LoginViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        editEmail.textContentType = .username
-        editPassword.textContentType = .oneTimeCode
     }
     
     @IBAction func onLogin(_ sender: Any) {
@@ -28,7 +26,7 @@ class LoginViewController: BaseViewController {
             showErrorAlert(message: "Please enter password")
         }else{
             //create URL
-//            let url = createUrl(path: "users/signin")
+            let url = createUrl(path: "/users/signin")
             
             //create the body
             let body = [
@@ -43,7 +41,29 @@ class LoginViewController: BaseViewController {
             request.response(completionHandler: {response in
                 switch response.result{
                 case .success(let data):
-                    print(data)
+                    //parse the data using JSON parser and convert it into dictionary (JSON object)
+                    let result = try! JSONSerialization.jsonObject(with: data!) as! [String: Any]
+                    
+                    //check if the result is success
+                    if result["status"] as! String == "success" {
+                        
+                        //get the data from result
+                        let data = result["data"] as! [String: Any]
+                        
+                        //cache the user details(name, email, token)
+                        //userDefaults=> SharedPreferences(in Android)
+                        let userDefaults = UserDefaults.standard
+                        userDefaults.set("name", forKey: data["name"] as! String)
+                        userDefaults.set("token", forKey: data["token"] as! String)
+                        userDefaults.set("mobile", forKey: data["mobile"] as! String)
+                        
+                        //commit the changes done in user default
+                        userDefaults.synchronize()
+                        
+                        self.showSuccessAlert(message: "welcome to the application")
+                    } else{
+                        self.showErrorAlert(message: "Invalid email or password")
+                    }
                 case .failure(let error):
                     print(error)
                 }
