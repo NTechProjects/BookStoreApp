@@ -16,6 +16,9 @@ class LoginViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //restore the email and password entered last time
+        
     }
     
     @IBAction func onLogin(_ sender: Any) {
@@ -56,11 +59,18 @@ class LoginViewController: BaseViewController {
                         userDefaults.set("name", forKey: data["name"] as! String)
                         userDefaults.set("token", forKey: data["token"] as! String)
                         userDefaults.set("mobile", forKey: data["mobile"] as! String)
+                        userDefaults.set("eamil", forKey: self.editEmail.text!)
+                        userDefaults.set("password", forKey: self.editEmail.text!)
                         
                         //commit the changes done in user default
                         userDefaults.synchronize()
                         
-                        self.showSuccessAlert(message: "welcome to the application")
+                        //self.showSuccessAlert(message: "welcome to the application")
+                        //get the SceneDelegate object
+                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+                        
+                        //start the homw workflow
+                        sceneDelegate.startHomeWorkflow()
                     } else{
                         self.showErrorAlert(message: "Invalid email or password")
                     }

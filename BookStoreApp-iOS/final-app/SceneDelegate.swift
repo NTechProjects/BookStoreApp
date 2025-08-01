@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     //start the login workflow
-    func loginWOrkflow(){
+    func startLoginWOrkflow(){
         //get the login navigation controller
         let loginNavigationCOntroller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavigationLoginWorkflow")
         
@@ -21,15 +21,33 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     //start the home workflow
-    func homwWorkflow() {
+    func startHomeWorkflow() {
+        //get the tabbar view controller
+        let tabbarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabbarLoggedInUserWorkflow")
         
+        //start window with tabbar view controller
+        window?.rootViewController = tabbarViewController
     }
+    
+    
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+//        print("application started")
+        
+//        let usesrDefaults = UserDefaults.standard
+//        if let token = userDefaults.string(forKey: "token") {
+//            //user is already logged in
+//           startHomeWorkflow()
+//        } else{
+//            //user is not yet logged in
+//           startLoginWOrkflow()
+//        }
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -42,6 +60,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
